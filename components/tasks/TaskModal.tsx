@@ -15,6 +15,7 @@ import {
 import { format } from 'date-fns';
 import { tasksApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import useToastStore from '@/store/toastStore';
 import type { TaskModalProps, Priority, Status } from '@/src/interfaces';
 
 // ─── Select helpers ───────────────────────────────────────────────────────────
@@ -89,11 +90,15 @@ export default function TaskModal({ mode, task, status, onClose, onSave }: TaskM
     setLoading(true);
     setError('');
 
+    const { addToast } = useToastStore.getState();
+
     try {
       if (isEdit && task) {
         await tasksApi.update(task.id, { title: title.trim(), priority, status: taskStatus, due_date: dueDate, tags });
+        addToast('Task updated successfully', 'success');
       } else {
         await tasksApi.create({ title: title.trim(), priority, status: taskStatus as Status, due_date: dueDate, tags });
+        addToast('Task created successfully', 'success');
       }
       onSave();
       onClose();

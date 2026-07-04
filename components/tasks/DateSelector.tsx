@@ -1,21 +1,42 @@
 'use client';
 
+import { useRef } from 'react';
 import { addDays, subDays, isToday, isSameDay, format } from 'date-fns';
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { DateSelectorProps } from '@/src/interfaces';
 
 export default function DateSelector({ selected, onChange }: DateSelectorProps) {
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
   // 7-day sliding window centred on the selected date
   const days = Array.from({ length: 7 }, (_, i) => addDays(subDays(selected, 3), i));
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      {/* Month/Year label */}
-      <div className="flex items-center gap-1.5 text-sm text-[#71717a] min-w-[130px]">
+      {/* Month/Year label (Clickable to trigger datepicker) */}
+      <button
+        onClick={() => dateInputRef.current?.showPicker()}
+        className={cn(
+          'flex items-center gap-1.5 text-sm text-[#71717a] min-w-[130px] px-2.5 py-1.5 rounded-lg border border-white/8 bg-white/[0.02]',
+          'hover:text-[#fafafa] hover:bg-white/6 hover:border-white/16 cursor-pointer relative outline-none',
+          'transition-all duration-200 focus:ring-2 focus:ring-[#7c3aed]/40'
+        )}
+      >
         <CalendarDays className="w-4 h-4 shrink-0" />
-        <span className="font-medium">{format(selected, 'MMMM yyyy')}</span>
-      </div>
+        <span className="font-semibold text-xs tracking-wide">{format(selected, 'MMMM yyyy')}</span>
+        <input
+          ref={dateInputRef}
+          type="date"
+          value={format(selected, 'yyyy-MM-dd')}
+          onChange={(e) => {
+            if (e.target.value) {
+              onChange(new Date(e.target.value + 'T00:00:00'));
+            }
+          }}
+          className="absolute inset-0 opacity-0 pointer-events-none w-0 h-0"
+        />
+      </button>
 
       {/* Day strip */}
       <div className="flex items-center gap-1">

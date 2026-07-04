@@ -14,6 +14,7 @@ import {
 import { AnimatePresence } from 'framer-motion';
 import { tasksApi } from '@/lib/api';
 import useTaskStore, { toApiDate } from '@/store/taskStore';
+import useToastStore from '@/store/toastStore';
 import Column from './Column';
 import TaskCard from './TaskCard';
 import TaskModal from './TaskModal';
@@ -95,6 +96,14 @@ export default function Board() {
     // No change
     if (draggedTask.status === newStatus) return;
 
+    const statusLabels: Record<Status, string> = {
+      todo: 'To Do',
+      inprogress: 'In Progress',
+      done: 'Done',
+    };
+
+    const { addToast } = useToastStore.getState();
+
     // Optimistic update
     const snapshot = [...tasks];
     const optimistic = tasks.map((t) =>
@@ -106,21 +115,26 @@ export default function Board() {
       const newColTasks = optimistic.filter((t) => t.status === newStatus);
       const newOrder   = newColTasks.findIndex((t) => t.id === taskId);
       await tasksApi.reorder(taskId, { status: newStatus, order: newOrder });
+      addToast(`Moved "${draggedTask.title}" to ${statusLabels[newStatus]}`, 'success');
     } catch {
       // Revert on error
       setTasks(snapshot);
+      addToast('Failed to move task. Reverted change.', 'error');
     }
   };
 
   // ── Delete ────────────────────────────────────────────────────
 
   const handleDeleteTask = async (id: number) => {
+    const { addToast } = useToastStore.getState();
     const snapshot = [...tasks];
     setTasks(tasks.filter((t) => t.id !== id));       // optimistic
     try {
       await tasksApi.delete(id);
+      addToast('Task deleted successfully', 'success');
     } catch {
       setTasks(snapshot);                               // revert
+      addToast('Failed to delete task', 'error');
     }
   };
 
