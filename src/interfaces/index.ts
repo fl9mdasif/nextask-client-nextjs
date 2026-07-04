@@ -1,5 +1,12 @@
 // ─── Auth ────────────────────────────────────────────────────────────────────
 
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+  errors?: any;
+}
+
 export interface AuthTokens {
   access: string;
   refresh: string;

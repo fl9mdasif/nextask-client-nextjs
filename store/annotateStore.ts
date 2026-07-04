@@ -22,8 +22,8 @@ const useAnnotateStore = create<AnnotateStore>((set) => ({
    */
   fetchImages: async () => {
     try {
-      const { data } = await annotateApi.getImages();
-      set({ images: data });
+      const response = await annotateApi.getImages();
+      set({ images: response.data.data });
     } catch (error) {
       console.error('[annotateStore] fetchImages error:', error);
       set({ images: [] });
@@ -35,8 +35,8 @@ const useAnnotateStore = create<AnnotateStore>((set) => ({
    */
   fetchPolygons: async (imageId: number) => {
     try {
-      const { data } = await annotateApi.getPolygons(imageId);
-      set({ polygons: data });
+      const response = await annotateApi.getPolygons(imageId);
+      set({ polygons: response.data.data });
     } catch (error) {
       console.error('[annotateStore] fetchPolygons error:', error);
       set({ polygons: [] });

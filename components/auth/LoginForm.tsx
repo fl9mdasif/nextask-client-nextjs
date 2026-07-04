@@ -123,14 +123,15 @@ export default function LoginForm() {
     setError('');
 
     try {
-      const { data } = await authApi.login(email, password);
+      const response = await authApi.login(email, password);
+      const { access, refresh } = response.data.data;
 
       // Store in localStorage (for Axios interceptor)
-      localStorage.setItem('access_token', data.access);
-      localStorage.setItem('refresh_token', data.refresh);
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
 
       // Store in cookie (for Next.js middleware on Edge runtime)
-      document.cookie = `access_token=${data.access}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+      document.cookie = `access_token=${access}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
 
       router.push(nextPath);
       router.refresh();

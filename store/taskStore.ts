@@ -20,8 +20,8 @@ const useTaskStore = create<TaskStore>((set) => ({
    */
   fetchTasks: async (date: string) => {
     try {
-      const { data } = await tasksApi.getByDate(date);
-      set({ tasks: data });
+      const response = await tasksApi.getByDate(date);
+      set({ tasks: response.data.data });
     } catch (error) {
       console.error('[taskStore] fetchTasks error:', error);
       set({ tasks: [] });
