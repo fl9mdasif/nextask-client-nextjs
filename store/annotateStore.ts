@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { annotateApi } from '@/lib/api';
-import type { AnnotateStore, AnnotationImage, Polygon } from '@/src/interfaces';
+import type { AnnotateStore, AnnotationImage } from '@/src/interfaces';
 
 const useAnnotateStore = create<AnnotateStore>((set) => ({
   // ─── State ──────────────────────────────────────────────────────────────────
