@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* ── Tell Tailwind v4 which directories to scan ────────────── */
+/* NOTE: directory paths (no globs). Adding @source disables    */
+/* auto-detection, so we must list every folder we use.        */
+@source "../app";
+@source "../components";
+@source "../store";
+@source "../lib";
+@source "../src";
+
 /* ── Design Tokens ─────────────────────────────────────────── */
 @theme inline {
   --color-background:   #0a0a0f;
@@ -20,13 +29,11 @@
 }
 
 /* ── Base Reset ────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
 html {
   height: 100%;

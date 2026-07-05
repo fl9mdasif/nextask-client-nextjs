@@ -48,10 +48,10 @@ export default function LoginPage() {
       {/* Animated card wrapper (client) */}
       <LoginCard>
         {/* Glass card */}
-        <div className="glass rounded-2xl p-8 shadow-2xl">
+        <div className="glass rounded-2xl p-8 shadow-2xl w-full max-w-sm">
 
           {/* ── Logo / Wordmark ── */}
-          <div className="flex flex-col items-center gap-3 mb-8">
+          <div className="flex flex-col items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#7c3aed] to-[#6d28d9] flex items-center justify-center shadow-[0_0_24px_rgba(124,58,237,0.5)]">
               <svg
                 className="w-6 h-6 text-white"

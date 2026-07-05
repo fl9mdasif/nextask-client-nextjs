@@ -46,7 +46,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className="font-bold text-[#fafafa] tracking-tight">
-            Nex<span className="text-[#8b5cf6]">Task</span>
+         Nex<span className="text-[#8b5cf6]">Task</span>
           </span>
         </div>
 
