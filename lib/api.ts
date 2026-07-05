@@ -87,6 +87,10 @@ export const authApi = {
 // ─── Tasks API ───────────────────────────────────────────────────────────────
 
 export const tasksApi = {
+  /** GET /api/tasks/ — fetch all tasks without date filter */
+  getAll: () =>
+    api.get<ApiResponse<Task[]>>('/api/tasks/'),
+
   /** GET /api/tasks/?date=YYYY-MM-DD — fetch tasks for a specific date */
   getByDate: (date: string) =>
     api.get<ApiResponse<Task[]>>('/api/tasks/', { params: { date } }),

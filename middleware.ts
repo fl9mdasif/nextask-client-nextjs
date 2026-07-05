@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/tasks', '/annotate'];
+const PROTECTED_ROUTES = ['/tasks', '/annotate', '/analytics'];
 
 // Routes that should redirect away if already authenticated
 const AUTH_ROUTES = ['/login'];

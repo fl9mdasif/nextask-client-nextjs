@@ -4,14 +4,15 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { LogOut, Menu, X, LayoutGrid, ScanEye } from 'lucide-react';
+import { LogOut, Menu, X, LayoutGrid, ScanEye, BarChart3 } from 'lucide-react';
 import { authApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import ThemeToggle from '@/components/shared/ThemeToggle';
 
 const NAV_LINKS = [
-  { href: '/tasks',    label: 'Tasks',    icon: LayoutGrid },
-  { href: '/annotate', label: 'Annotate', icon: ScanEye      },
+  { href: '/tasks',     label: 'Tasks',     icon: LayoutGrid },
+  { href: '/annotate',  label: 'Annotate',  icon: ScanEye      },
+  { href: '/analytics', label: 'Analytics', icon: BarChart3    },
 ];
 
 export default function Navbar() {

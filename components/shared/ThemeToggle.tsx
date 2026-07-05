@@ -14,6 +14,22 @@ export default function ThemeToggle() {
 
   const isDark = theme === 'dark';
 
+  if (!mounted) {
+    return (
+      <button
+        id="theme-toggle-btn"
+        className={cn(
+          'flex items-center justify-center w-9 h-9 rounded-lg',
+          'text-[#71717a] dark:text-[#71717a]'
+        )}
+        aria-label="Toggle theme"
+        disabled
+      >
+        <span className="w-4 h-4" />
+      </button>
+    );
+  }
+
   return (
     <button
       id="theme-toggle-btn"
@@ -29,10 +45,7 @@ export default function ThemeToggle() {
       )}
     >
       <AnimatePresence mode="wait" initial={false}>
-        {/* Render placeholder until mounted to avoid hydration flicker */}
-        {!mounted ? (
-          <span className="w-4 h-4" />
-        ) : isDark ? (
+        {isDark ? (
           <motion.span
             key="moon"
             initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
