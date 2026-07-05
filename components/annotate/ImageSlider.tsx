@@ -83,7 +83,7 @@ export default function ImageSlider() {
               'group relative flex items-center gap-3 p-2.5 rounded-xl border cursor-pointer transition-all duration-200',
               isActive
                 ? 'bg-[#7c3aed]/10 border-[#7c3aed] shadow-md shadow-[#7c3aed]/5'
-                : 'bg-[#111118]/60 border-white/8 hover:border-white/16 hover:bg-white/[0.03]'
+                : 'bg-white dark:bg-[#111118]/60 border-black/8 dark:border-white/8 hover:border-[#7c3aed]/30 dark:hover:border-white/16 hover:bg-[#f5f3fe] dark:hover:bg-white/[0.03]'
             )}
           >
             {/* Thumbnail */}
@@ -99,10 +99,10 @@ export default function ImageSlider() {
 
             {/* Title / Info */}
             <div className="flex-1 min-w-0 pr-6">
-              <p className="text-xs font-semibold text-[#fafafa] truncate leading-tight">
+              <p className="text-xs font-semibold text-[#1a1625] dark:text-[#fafafa] truncate leading-tight">
                 {img.name}
               </p>
-              <p className="text-[9px] text-[#71717a] mt-1">
+              <p className="text-[9px] text-[#6b7280] dark:text-[#71717a] mt-1">
                 {new Date(img.uploaded_at).toLocaleDateString(undefined, {
                   month: 'short',
                   day: 'numeric',

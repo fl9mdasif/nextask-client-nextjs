@@ -41,12 +41,12 @@ export default function TasksPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Title */}
           <div>
-            <h1 className="text-xl font-bold text-[#fafafa] tracking-tight">
+            <h1 className="text-xl font-bold text-[#1a1625] dark:text-[#fafafa] tracking-tight">
               Task Board
             </h1>
-            <p className="text-sm text-[#71717a] mt-0.5">
+            <p className="text-sm text-[#6b7280] dark:text-[#71717a] mt-0.5">
               {format(selectedDate, 'EEEE, MMMM d, yyyy')} &mdash;{' '}
-              <span className="text-[#a1a1aa]">{tasks.length} task{tasks.length !== 1 ? 's' : ''}</span>
+              <span className="text-[#374151] dark:text-[#a1a1aa]">{tasks.length} task{tasks.length !== 1 ? 's' : ''}</span>
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export default function TasksPage() {
         </div>
 
         {/* Divider */}
-        <div className="mt-4 h-px bg-white/6" />
+        <div className="mt-4 h-px bg-black/8 dark:bg-white/6" />
       </motion.div>
 
       {/* ── Board ── */}

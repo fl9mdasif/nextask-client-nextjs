@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 /* ── Tell Tailwind v4 which directories to scan ────────────── */
-/* NOTE: directory paths (no globs). Adding @source disables    */
-/* auto-detection, so we must list every folder we use.        */
 @source "../app";
 @source "../components";
 @source "../store";
 @source "../lib";
 @source "../src";
+
+/* ── Tailwind v4: class-based dark mode (next-themes adds .dark) */
+@variant dark (&:where(.dark, .dark *));
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 @theme inline {
@@ -139,4 +140,111 @@ body {
 
 .glow-accent-sm {
   box-shadow: 0 0 12px rgba(124, 58, 237, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES  (html.light is set by next-themes)
+   ═══════════════════════════════════════════════════════════════ */
+
+html.light {
+  color-scheme: light;
+}
+
+/* Body */
+html.light body {
+  background-color: #f0eefa;
+  color: #0f0f13;
+}
+
+/* Navbar */
+html.light nav {
+  background: rgba(240, 238, 250, 0.9) !important;
+  border-color: rgba(124, 58, 237, 0.12) !important;
+}
+
+/* Glass surfaces (.glass class used on cards, modals, columns) */
+html.light .glass {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.07) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Animated gradient background override */
+html.light .bg-animated-gradient {
+  background: linear-gradient(-45deg, #f0eefa, #e8e4f8, #ede9fb, #f3f0fc, #eceafa);
+  background-size: 400% 400%;
+  animation: gradient-shift 12s ease infinite;
+}
+
+/* ── Generic dark bg surfaces → light surfaces ─────────────── */
+html.light [class*="bg-\\[\\#0a0a0f\\]"],
+html.light [class*="bg-\\[\\#111118\\]"],
+html.light [class*="bg-\\[\\#16161f\\]"] {
+  background-color: #f8f7fd;
+}
+
+/* Inline dark surface cards, inputs */
+html.light [class*="bg-white\\/\\[0\\.02\\]"],
+html.light [class*="bg-white\\/\\[0\\.01\\]"] {
+  background-color: rgba(124, 58, 237, 0.04) !important;
+}
+
+/* Text: foreground colors */
+html.light [class*="text-\\[\\#fafafa\\]"],
+html.light [class*="text-\\[\\#a1a1aa\\]"] {
+  color: #1a1625;
+}
+
+html.light [class*="text-\\[\\#71717a\\]"],
+html.light [class*="text-\\[\\#52525b\\]"] {
+  color: #6b7280;
+}
+
+/* Border colors (white → black alpha) */
+html.light [class*="border-white\\/"] {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Inputs */
+html.light input,
+html.light textarea {
+  background-color: #f5f3fe !important;
+  color: #0f0f13 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Hover backgrounds (white opacity → black opacity) */
+html.light [class*="hover\\:bg-white\\/"] {
+  --tw-bg-opacity: 1;
+}
+
+/* Divider lines */
+html.light [class*="bg-white\\/6"],
+html.light [class*="bg-white\\/5"] {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Footer */
+html.light footer {
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Mobile drawer */
+html.light [class*="bg-\\[\\#0a0a0f\\]\\/95"] {
+  background: rgba(240, 238, 250, 0.97) !important;
+}
+
+/* Skeleton */
+html.light .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.04) 25%,
+    rgba(0,0,0,0.08) 50%,
+    rgba(0,0,0,0.04) 75%
+  );
 }

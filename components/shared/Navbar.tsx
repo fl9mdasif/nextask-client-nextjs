@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LogOut, Menu, X, LayoutGrid, ScanEye } from 'lucide-react';
 import { authApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 
 const NAV_LINKS = [
   { href: '/tasks',    label: 'Tasks',    icon: LayoutGrid },
@@ -54,7 +55,7 @@ export default function Navbar() {
                 <path d="M14 17.5h7M17.5 14v7" />
               </svg>
             </div>
-            <span className="font-bold text-[#fafafa] tracking-tight">
+            <span className="font-bold text-[#1a1625] dark:text-[#fafafa] tracking-tight">
               Nex<span className="text-[#8b5cf6]">Task</span>
             </span>
           </Link>
@@ -90,7 +91,13 @@ export default function Navbar() {
           </div>
 
           {/* ── Right: logout + hamburger ── */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            {/* Theme toggle */}
+            <ThemeToggle />
+
+            {/* Divider */}
+            <span className="w-px h-5 bg-white/10 dark:bg-white/10 mx-1" />
+
             {/* Logout — always visible */}
             <button
               id="logout-btn"
@@ -176,6 +183,12 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              {/* Theme toggle row */}
+              <div className="flex items-center justify-between px-4 py-3 mt-1 rounded-xl border border-white/6">
+                <span className="text-sm font-medium text-[#71717a]">Theme</span>
+                <ThemeToggle />
+              </div>
             </div>
           </motion.div>
         )}

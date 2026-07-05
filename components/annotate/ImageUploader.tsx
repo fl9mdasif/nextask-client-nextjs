@@ -102,7 +102,7 @@ export default function ImageUploader() {
           <div className="p-2.5 rounded-lg bg-white/5 border border-white/8 text-[#71717a] group-hover:text-[#fafafa] transition-colors duration-200">
             <UploadCloud className="w-5 h-5" />
           </div>
-          <p className="text-xs font-semibold text-[#fafafa] tracking-wide mt-1">
+          <p className="text-xs font-semibold text-[#1a1625] dark:text-[#fafafa] tracking-wide mt-1">
             Drag & drop or click to upload
           </p>
           <p className="text-[10px] text-[#71717a]">
