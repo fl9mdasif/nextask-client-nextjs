@@ -6,7 +6,6 @@ import { Tag, Palette, Trash2, HelpCircle, ImageIcon, Plus } from 'lucide-react'
 import useAnnotateStore from '@/store/annotateStore';
 import { annotateApi } from '@/lib/api';
 import useToastStore from '@/store/toastStore';
-import Navbar from '@/components/shared/Navbar';
 import ImageUploader from '@/components/annotate/ImageUploader';
 import ImageSlider from '@/components/annotate/ImageSlider';
 import type { Point } from '@/src/interfaces';
@@ -108,10 +107,7 @@ export default function AnnotatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
-      <Navbar />
-
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col md:flex-row gap-6">
+    <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col md:flex-row gap-6">
         {/* ── Left Sidebar (Upload & Image List) ── */}
         <section className="w-full md:w-80 shrink-0 flex flex-col gap-4">
           <div className="glass rounded-2xl p-5 shadow-xl">
@@ -276,7 +272,6 @@ export default function AnnotatePage() {
             </div>
           )}
         </section>
-      </main>
-    </div>
+    </main>
   );
 }
