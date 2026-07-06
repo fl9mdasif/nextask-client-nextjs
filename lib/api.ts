@@ -77,7 +77,7 @@ export const authApi = {
 
   /** POST /api/auth/logout/ — blacklists refresh token */
   logout: (refresh: string) =>
-    api.post<ApiResponse<any>>('/api/auth/logout/', { refresh }),
+    api.post<ApiResponse<unknown>>('/api/auth/logout/', { refresh }),
 
   /** GET /api/auth/me/ — returns current user info */
   me: () =>
@@ -109,7 +109,7 @@ export const tasksApi = {
 
   /** DELETE /api/tasks/:id/ — delete a task */
   delete: (id: number) =>
-    api.delete<ApiResponse<any>>(`/api/tasks/${id}/`),
+    api.delete<ApiResponse<unknown>>(`/api/tasks/${id}/`),
 };
 
 // ─── Annotate API ─────────────────────────────────────────────────────────────
@@ -127,7 +127,7 @@ export const annotateApi = {
 
   /** DELETE /api/annotate/images/:id/ — delete an image */
   deleteImage: (id: number) =>
-    api.delete<ApiResponse<any>>(`/api/annotate/images/${id}/`),
+    api.delete<ApiResponse<unknown>>(`/api/annotate/images/${id}/`),
 
   /** GET /api/annotate/images/:id/polygons/ — get polygons for an image */
   getPolygons: (imageId: number) =>
@@ -139,7 +139,7 @@ export const annotateApi = {
 
   /** DELETE /api/annotate/polygons/:id/ — delete a specific polygon */
   deletePolygon: (id: number) =>
-    api.delete<ApiResponse<any>>(`/api/annotate/polygons/${id}/`),
+    api.delete<ApiResponse<unknown>>(`/api/annotate/polygons/${id}/`),
 };
 
 export default api;

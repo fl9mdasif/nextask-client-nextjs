@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Trash2, AlertCircle, Image as ImageIcon } from 'lucide-react';
+import { Trash2, Image as ImageIcon } from 'lucide-react';
 import useAnnotateStore from '@/store/annotateStore';
 import { annotateApi } from '@/lib/api';
 import useToastStore from '@/store/toastStore';
@@ -37,7 +37,6 @@ export default function ImageSlider() {
           // Clear active image by setting state directly or by passing dummy value
           // Since setActiveImage expects AnnotationImage, we might need a reset store action or just let it stay null.
           // Wait,setActiveImage accepts AnnotationImage. Let's cast null.
-          const store = useAnnotateStore.getState();
           useAnnotateStore.setState({ activeImage: null, polygons: [] });
         }
       }

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertTriangle, Info, X } from 'lucide-react';
-import useToastStore, { type ToastType } from '@/store/toastStore';
+import useToastStore from '@/store/toastStore';
 import { cn } from '@/lib/utils';
 
 const iconMap = {

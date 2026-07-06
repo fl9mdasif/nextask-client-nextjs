@@ -32,6 +32,35 @@ import {
   Legend,
 } from 'recharts';
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    name: string;
+    value: number;
+    color?: string;
+    payload: {
+      fill?: string;
+    };
+  }>;
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white/90 dark:bg-[#111118]/90 text-[#1a1625] dark:text-[#fafafa] p-3 rounded-xl border border-black/10 dark:border-white/10 shadow-2xl backdrop-blur-md text-xs">
+        <p className="font-semibold mb-1">{label}</p>
+        {payload.map((item, idx) => (
+          <p key={idx} style={{ color: item.color || item.payload.fill || '#8b5cf6' }}>
+            {item.name}: <span className="font-bold text-current">{item.value}</span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function AnalyticsPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -123,22 +152,7 @@ export default function AnalyticsPage() {
     'Tasks Created': d.count,
   }));
 
-  // Recharts Custom Tooltip (Glass styled)
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white/90 dark:bg-[#111118]/90 text-[#1a1625] dark:text-[#fafafa] p-3 rounded-xl border border-black/10 dark:border-white/10 shadow-2xl backdrop-blur-md text-xs">
-          <p className="font-semibold mb-1">{label}</p>
-          {payload.map((item: any, idx: number) => (
-            <p key={idx} style={{ color: item.color || item.payload.fill || '#8b5cf6' }}>
-              {item.name}: <span className="font-bold text-current">{item.value}</span>
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
+
 
   if (loading || !mounted) {
     return (

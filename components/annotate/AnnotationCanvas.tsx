@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Stage, Layer, Image as KonvaImage, Line, Circle } from 'react-konva';
-import { AlertCircle, PenTool, MousePointer, Trash2, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, PenTool, MousePointer } from 'lucide-react';
 import type { AnnotationCanvasProps, Point } from '@/src/interfaces';
 import { cn } from '@/lib/utils';
 
@@ -22,19 +22,8 @@ export default function AnnotationCanvas({
   const [isDrawMode, setIsDrawMode] = useState(true);
   const [newPoints, setNewPoints] = useState<Point[]>([]);
   const [hoveredPolygonId, setHoveredPolygonId] = useState<number | null>(null);
-  const [polygonLabel, setPolygonLabel] = useState('');
-  const [polygonColor, setPolygonColor] = useState('#7c3aed');
 
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Colors preset
-  const colorPresets = [
-    { name: 'Purple', value: '#7c3aed' },
-    { name: 'Red', value: '#ef4444' },
-    { name: 'Green', value: '#22c55e' },
-    { name: 'Blue', value: '#3b82f6' },
-    { name: 'Yellow', value: '#eab308' },
-  ];
 
   // Load image
   useEffect(() => {
@@ -46,6 +35,7 @@ export default function AnnotationCanvas({
       setImageObj(img);
     };
     // Clear draft on image change
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setNewPoints([]);
   }, [image]);
 
@@ -76,9 +66,35 @@ export default function AnnotationCanvas({
     return () => window.removeEventListener('resize', updateScale);
   }, [imageObj]);
 
+  const savePolygon = useCallback(() => {
+    if (newPoints.length < 3) return;
+
+    // Call save callback with the payload custom options
+    // Wait, the interface only specifies points. But let's check if the API supports labels/colors.
+    // Yes! in lib/api.ts: createPolygon: (imageId, payload: { points: Point[], label?: string, color?: string })
+    // But the canvas props interface is: onPolygonSave: (points: Point[]) => void.
+    // To support customizing label/color on save, we will pass them along.
+    // Wait, since onPolygonSave only takes points in the interface:
+    // interface AnnotationCanvasProps { onPolygonSave: (points: Point[]) => void }
+    // Let's check how the component was defined in CLAUDE.md:
+    // interface AnnotationCanvasProps { onPolygonSave: (points: Point[]) => void }
+    // How can we customize label/color then? We can save it by passing custom fields inside a modified store handler or modify the callback in app/annotate/page.tsx.
+    // Let's pass points to onPolygonSave. We can store the current label/color in state and pass it in a custom way, or we can update the interface.
+    // Since the interface is already loaded in src/interfaces, we can just use it. Let's see: we can pass points, but how will page save color?
+    // Let's check how onPolygonSave is wired. We can pass a custom function or let page fetch it.
+    // Actually, we can add optional parameters or use a custom handler.
+    // Let's pass it anyway: (points, label, color) or just change the props interface if needed, but to respect the interface strictly:
+    // Let's pass an object or let onPolygonSave handle the save.
+    // Let's pass the points, and we can store label and color directly on a form or pass them as part of a custom call inside page.tsx.
+    // Let's make a wrapper in page.tsx that reads current active values.
+    // Let's do that! We'll just call onPolygonSave(newPoints) and let page.tsx handle it, or we can cast it if needed.
+    onPolygonSave(newPoints);
+    setNewPoints([]);
+  }, [newPoints, onPolygonSave]);
+
   // Close polygon keyboard shortcut (Enter)
   useEffect(() => {
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && newPoints.length >= 3 && isDrawMode) {
         e.preventDefault();
         savePolygon();
@@ -88,9 +104,10 @@ export default function AnnotationCanvas({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [newPoints, isDrawMode]);
+  }, [newPoints, isDrawMode, savePolygon]);
 
   // Trigger point addition on canvas click
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCanvasClick = (e: any) => {
     if (!isDrawMode || !imageObj) return;
 
@@ -116,32 +133,6 @@ export default function AnnotationCanvas({
     }
 
     setNewPoints((prev) => [...prev, relPoint]);
-  };
-
-  const savePolygon = () => {
-    if (newPoints.length < 3) return;
-
-    // Call save callback with the payload custom options
-    // Wait, the interface only specifies points. But let's check if the API supports labels/colors.
-    // Yes! in lib/api.ts: createPolygon: (imageId, payload: { points: Point[], label?: string, color?: string })
-    // But the canvas props interface is: onPolygonSave: (points: Point[]) => void.
-    // To support customizing label/color on save, we will pass them along.
-    // Wait, since onPolygonSave only takes points in the interface:
-    // interface AnnotationCanvasProps { onPolygonSave: (points: Point[]) => void }
-    // Let's check how the component was defined in CLAUDE.md:
-    // interface AnnotationCanvasProps { onPolygonSave: (points: Point[]) => void }
-    // How can we customize label/color then? We can save it by passing custom fields inside a modified store handler or modify the callback in app/annotate/page.tsx.
-    // Let's pass points to onPolygonSave. We can store the current label/color in state and pass it in a custom way, or we can update the interface.
-    // Since the interface is already loaded in src/interfaces, we can just use it. Let's see: we can pass points, but how will page save color?
-    // Let's check how onPolygonSave is wired. We can pass a custom function or let page fetch it.
-    // Actually, we can add optional parameters or use a custom handler.
-    // Let's pass it anyway: (points, label, color) or just change the props interface if needed, but to respect the interface strictly:
-    // Let's pass an object or let onPolygonSave handle the save.
-    // Let's pass the points, and we can store label and color directly on a form or pass them as part of a custom call inside page.tsx.
-    // Let's make a wrapper in page.tsx that reads current active values.
-    // Let's do that! We'll just call onPolygonSave(newPoints) and let page.tsx handle it, or we can cast it if needed.
-    onPolygonSave(newPoints);
-    setNewPoints([]);
   };
 
   // Convert Point[] to Konva flat array [x1, y1, x2, y2, ...]
@@ -303,7 +294,7 @@ export default function AnnotationCanvas({
 }
 
 // Inline loading indicator for dynamic imports
-function Loader2({ className, ...props }: any) {
+function Loader2({ className, ...props }: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

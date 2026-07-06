@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  // Avoid hydration mismatch — only render icon after mount
   const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   const isDark = theme === 'dark';

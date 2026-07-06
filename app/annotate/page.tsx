@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { Tag, Palette, Trash2, HelpCircle, ImageIcon, Plus } from 'lucide-react';
+import { Tag, Trash2, HelpCircle, ImageIcon } from 'lucide-react';
 import useAnnotateStore from '@/store/annotateStore';
 import { annotateApi } from '@/lib/api';
 import useToastStore from '@/store/toastStore';
@@ -10,6 +11,7 @@ import ImageUploader from '@/components/annotate/ImageUploader';
 import ImageSlider from '@/components/annotate/ImageSlider';
 import type { Point } from '@/src/interfaces';
 import { cn } from '@/lib/utils';
+
 
 // Dynamically import AnnotationCanvas with SSR disabled
 const AnnotationCanvas = dynamic(
@@ -31,15 +33,23 @@ export default function AnnotatePage() {
     activeImage,
     polygons,
     fetchPolygons,
-    fetchImages,
   } = useAnnotateStore();
 
   const { addToast } = useToastStore();
+  const router = useRouter();
 
   // Selected label & color properties for drawing
   const [activeLabel, setActiveLabel] = useState('Annotation');
   const [activeColor, setActiveColor] = useState('#7c3aed');
-  const [saving, setSaving] = useState(false);
+
+  // Guard: if localStorage has no token redirect to login instead
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      document.cookie = 'access_token=; path=/; max-age=0; SameSite=Lax';
+      router.replace('/login');
+    }
+  }, [router]);
 
   // Fetch polygons when active image changes
   useEffect(() => {
@@ -52,9 +62,8 @@ export default function AnnotatePage() {
   const handlePolygonSave = async (points: Point[]) => {
     if (!activeImage) return;
 
-    setSaving(true);
     try {
-      const response = await annotateApi.createPolygon(activeImage.id, {
+      await annotateApi.createPolygon(activeImage.id, {
         points,
         label: activeLabel.trim() || 'Annotation',
         color: activeColor,
@@ -66,8 +75,6 @@ export default function AnnotatePage() {
     } catch (error) {
       console.error('Failed to save polygon:', error);
       addToast('Failed to save annotation', 'error');
-    } finally {
-      setSaving(false);
     }
   };
 
