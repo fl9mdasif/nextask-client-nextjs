@@ -159,7 +159,7 @@ export default function AnnotationCanvas({
             )}
           >
             <PenTool className="w-3.5 h-3.5" />
-            Draw Mode
+            Draw Annotate
           </button>
           <button
             onClick={() => {
@@ -174,7 +174,7 @@ export default function AnnotationCanvas({
             )}
           >
             <MousePointer className="w-3.5 h-3.5" />
-            Select Mode
+            Select Annotate 
           </button>
         </div>
 

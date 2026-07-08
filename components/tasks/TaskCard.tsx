@@ -60,8 +60,7 @@ export default function TaskCard({ task, onEdit, onDelete, isDragging = false }:
         className={cn(
           'absolute left-2 top-1/2 -translate-y-1/2',
           'text-[#3f3f46] hover:text-[#71717a] cursor-grab active:cursor-grabbing',
-          'opacity-0 group-hover:opacity-100 transition-opacity duration-150',
-          'touch-none'
+          'opacity-100 transition-opacity duration-150'
         )}
         aria-label="Drag task"
       >
@@ -77,7 +76,7 @@ export default function TaskCard({ task, onEdit, onDelete, isDragging = false }:
           </h3>
 
           {/* Hover action buttons */}
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               id={`edit-task-${task.id}`}
               onClick={() => onEdit(task)}

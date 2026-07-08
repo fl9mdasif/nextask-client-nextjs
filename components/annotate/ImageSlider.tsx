@@ -115,7 +115,7 @@ export default function ImageSlider() {
             <button
               id={`delete-image-${img.id}`}
               onClick={(e) => handleDelete(e, img.id)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 text-[#52525b] hover:text-red-400 hover:bg-red-500/10 transition-all duration-150"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:text-red-400 hover:bg-red-500/10 transition-all duration-150"
               aria-label="Delete image"
             >
               <Trash2 className="w-3.5 h-3.5" />
