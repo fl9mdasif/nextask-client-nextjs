@@ -1,11 +1,15 @@
 # NexTask — Task Management & Image Annotation Platform
 
-🌐 **Live Demo:** [nextasks-annotate.vercel.app](https://nextasks-annotate.vercel.app/)
-
 NexTask is a dark-themed, high-performance SaaS web application built with Next.js 16, TypeScript, Tailwind CSS v4, and Zustand. It serves as a unified workspace for Kanban-style task management and medical image/scan polygon annotation. 
 
 The frontend connects to a secure Django REST API backend to persist tasks, scans, and vector annotations.
 
+🌐 ## Live Demo: [NEXTASK](https://nextasks-annotate.vercel.app/)
+
+### Login details:
+- Email: `admin@gmail.com`
+- Password: `admin123456`
+- 
 ---
 
 ## 🚀 Key Features
