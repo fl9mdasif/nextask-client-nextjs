@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, Zap, Copy, Check } from 'lucide-react';
 import { authApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
@@ -105,6 +105,22 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [shaking, setShaking] = useState(false);
+
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPassword, setCopiedPassword] = useState(false);
+  const [revealDemoPassword, setRevealDemoPassword] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('admin@gmail.com');
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const copyPassword = () => {
+    navigator.clipboard.writeText('admin123456');
+    setCopiedPassword(true);
+    setTimeout(() => setCopiedPassword(false), 2000);
+  };
 
   const triggerShake = useCallback(() => {
     setShaking(true);
@@ -235,6 +251,78 @@ export default function LoginForm() {
           )}
         </motion.button>
       </form>
+
+      {/* ── Demo Credentials Box ── */}
+      <div className="mt-6 p-4 rounded-xl border border-white/8 bg-white/[0.02] backdrop-blur-sm">
+        <div className="flex items-center gap-1.5 mb-2.5">
+          <Zap className="w-3.5 h-3.5 text-[#8b5cf6]" />
+          <span className="text-[10px] font-bold text-[#a1a1aa] uppercase tracking-wider">Demo Credentials</span>
+        </div>
+        <div className="flex flex-col gap-2">
+          {/* Email Row */}
+          <div className="flex items-center justify-between gap-2 bg-[#16161f]/60 px-3 py-2 rounded-lg border border-white/4">
+            <div className="flex items-center gap-2 min-w-0">
+              <Mail className="w-3.5 h-3.5 text-[#71717a] shrink-0" />
+              <span className="text-xs text-[#fafafa] select-all truncate font-medium">admin@gmail.com</span>
+            </div>
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="text-[10px] font-semibold text-[#8b5cf6] hover:text-[#a78bfa] transition-colors duration-150 flex items-center gap-1 shrink-0"
+            >
+              {copiedEmail ? (
+                <>
+                  <Check className="w-3 h-3 text-green-400" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3 h-3" />
+                  Copy
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Password Row */}
+          <div className="flex items-center justify-between gap-2 bg-[#16161f]/60 px-3 py-2 rounded-lg border border-white/4">
+            <div className="flex items-center gap-2 min-w-0">
+              <Lock className="w-3.5 h-3.5 text-[#71717a] shrink-0" />
+              <span className="text-xs text-[#fafafa] font-mono select-all truncate font-medium">
+                {revealDemoPassword ? 'admin123456' : '••••••••••••'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setRevealDemoPassword((r) => !r)}
+                className="text-[#71717a] hover:text-[#fafafa] transition-colors duration-150"
+                aria-label={revealDemoPassword ? 'Hide password' : 'Show password'}
+              >
+                {revealDemoPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              </button>
+              <span className="w-px h-3 bg-white/10" />
+              <button
+                type="button"
+                onClick={copyPassword}
+                className="text-[10px] font-semibold text-[#8b5cf6] hover:text-[#a78bfa] transition-colors duration-150 flex items-center gap-1"
+              >
+                {copiedPassword ? (
+                  <>
+                    <Check className="w-3 h-3 text-green-400" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3 h-3" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
